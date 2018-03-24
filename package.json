@@ -1,0 +1,28 @@
+{
+    "name": "pkg-validate",
+    "version": "0.0.0",
+    "description": "Validate packages in parallel",
+    "main": "index.js",
+    "scripts": {
+        "precommit": "lint-staged"
+    },
+    "lint-staged": {
+        "*.js": ["prettier", "eslint --fix", "git add"],
+        "*.{json,md}": ["prettier", "git add"]
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/hjylewis/pkg-validate.git"
+    },
+    "author": "hjylewis",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/hjylewis/pkg-validate/issues"
+    },
+    "homepage": "https://github.com/hjylewis/pkg-validate#readme",
+    "devDependencies": {
+        "eslint": "^4.19.1",
+        "eslint-config-prettier": "^2.9.0",
+        "prettier": "1.11.1"
+    }
+}
