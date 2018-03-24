@@ -1,7 +1,7 @@
 const cosmiconfig = require('cosmiconfig');
 
 module.exports = function validate() {
-  const explorer = cosmiconfig('validate', {
+  const explorer = cosmiconfig('pkg-validate', {
     rcExtensions: true
   })
 
