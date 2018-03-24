@@ -10,12 +10,22 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": ["prettier --write", "eslint --fix", "git add"],
-    "*.{json,md}": ["prettier --write", "git add"]
+    "*.js": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{json,md}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "devDependencies": {
     "eslint": "^4.19.1",
     "eslint-config-prettier": "^2.9.0",
     "prettier": "1.11.1"
+  },
+  "dependencies": {
+    "cosmiconfig": "^4.0.0"
   }
 }
