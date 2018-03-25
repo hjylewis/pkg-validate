@@ -1,5 +1,5 @@
 const cosmiconfig = require('cosmiconfig');
-const run = require('./run');
+const runTasks = require('./runTasks');
 
 module.exports = function validate() {
   const explorer = cosmiconfig('pkg-validate', {
@@ -12,7 +12,7 @@ module.exports = function validate() {
       if (!result) throw new Error('Config could not be found');
       const { config } = result;
 
-      return run(config);
+      return runTasks(config);
     })
     .catch(({ message }) => {
       console.error(message);
