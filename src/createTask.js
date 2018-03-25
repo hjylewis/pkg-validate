@@ -8,31 +8,32 @@ module.exports = function createTask(command) {
   return {
     title: command,
     task: () => {
-      const e = execa(bin, args);
+      return new Observable(observer => {
+        const process = execa(bin, args);
 
-      const error = new Observable(observer => {
         const onData = data => {
-          const trimmed = data.toString('utf8').replace(/^\s+|\s+$/g, '');
-          const path = trimmed.split(/\r?\n/);
+          const path = data
+            .toString('utf8')
+            .replace(/^\s+|\s+$/g, '')
+            .split(/\r?\n/);
           observer.next(path[path.length - 1]);
         };
 
-        e.stdout.on('data', onData);
-        e.stderr.on('data', onData);
+        process.stdout.on('data', onData);
+        process.stderr.on('data', onData);
 
-        e
+        process
           .then(() => {
-            // e.stdout.removeListener('data', onData);
             observer.complete();
           })
           .catch(err => {
-            // e.stdout.removeListener('data', onData);
             observer.error(err);
-            observer.complete();
+          })
+          .then(() => {
+            process.stdout.removeListener('data', onData);
+            process.stderr.removeListener('data', onData);
           });
       });
-
-      return error;
     }
   };
 };
