@@ -1,13 +1,17 @@
 const execa = require('execa');
-const getCommand = require('./getCommand');
+const perfy = require('perfy');
+const prettyMs = require('pretty-ms');
 const { Observable } = require('rxjs/Observable');
+const getCommand = require('./getCommand');
 
 module.exports = function createTask(command) {
   const { bin, args } = getCommand(command);
 
   return {
     title: command,
-    task: () => {
+    task: (context, task) => {
+      perfy.start(command);
+
       return new Observable(observer => {
         const process = execa(bin, args);
 
@@ -24,6 +28,8 @@ module.exports = function createTask(command) {
 
         process
           .then(() => {
+            const { milliseconds } = perfy.end(command);
+            task.title = `${task.title} (${prettyMs(milliseconds)})`;
             observer.complete();
           })
           .catch(err => {
