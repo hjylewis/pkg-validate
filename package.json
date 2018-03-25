@@ -21,6 +21,9 @@
     "prettier": "1.11.1"
   },
   "dependencies": {
-    "cosmiconfig": "^4.0.0"
+    "cosmiconfig": "^4.0.0",
+    "execa": "^0.10.0",
+    "listr": "^0.13.0",
+    "npm-which": "^3.0.1"
   }
 }
