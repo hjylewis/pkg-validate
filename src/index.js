@@ -16,5 +16,8 @@ module.exports = function validate() {
     })
     .catch(({ message }) => {
       console.error(message);
+
+      // Other parallel tasks might still be running so manually exit
+      process.exit(1);
     });
 };
