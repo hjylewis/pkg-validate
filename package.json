@@ -7,12 +7,14 @@
   "author": "hjylewis",
   "license": "MIT",
   "scripts": {
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "prepush": "node index.js"
   },
   "lint-staged": {
     "*.js": ["prettier --write", "eslint --fix", "git add"],
     "*.{json,md}": ["prettier --write", "git add"]
   },
+  "pkg-validate": ["eslint ."],
   "devDependencies": {
     "eslint": "^4.19.1",
     "eslint-config-prettier": "^2.9.0",
