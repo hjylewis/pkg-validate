@@ -23,11 +23,11 @@
     "prettier": "1.11.1"
   },
   "dependencies": {
+    "convert-hrtime": "^2.0.0",
     "cosmiconfig": "^4.0.0",
     "execa": "^0.10.0",
     "listr": "^0.13.0",
     "npm-which": "^3.0.1",
-    "perfy": "^1.1.2",
     "pretty-ms": "^3.1.0",
     "rxjs": "^5.5.7"
   }

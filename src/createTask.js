@@ -1,7 +1,7 @@
 const execa = require('execa');
-const perfy = require('perfy');
 const prettyMs = require('pretty-ms');
 const { Observable } = require('rxjs/Observable');
+const convertHrtime = require('convert-hrtime');
 const getCommand = require('./getCommand');
 
 module.exports = function createTask(command) {
@@ -10,10 +10,10 @@ module.exports = function createTask(command) {
   return {
     title: command,
     task: (context, task) => {
-      perfy.start(command);
+      const duration = process.hrtime();
 
       return new Observable(observer => {
-        const process = execa(bin, args);
+        const childProcess = execa(bin, args);
 
         const onData = data => {
           const path = data
@@ -23,12 +23,12 @@ module.exports = function createTask(command) {
           observer.next(path[path.length - 1]);
         };
 
-        process.stdout.on('data', onData);
-        process.stderr.on('data', onData);
+        childProcess.stdout.on('data', onData);
+        childProcess.stderr.on('data', onData);
 
-        process
+        childProcess
           .then(() => {
-            const { milliseconds } = perfy.end(command);
+            const { milliseconds } = convertHrtime(process.hrtime(duration));
             task.title = `${task.title} (${prettyMs(milliseconds)})`;
             observer.complete();
           })
@@ -36,8 +36,8 @@ module.exports = function createTask(command) {
             observer.error(err);
           })
           .then(() => {
-            process.stdout.removeListener('data', onData);
-            process.stderr.removeListener('data', onData);
+            childProcess.stdout.removeListener('data', onData);
+            childProcess.stderr.removeListener('data', onData);
           });
       });
     }
